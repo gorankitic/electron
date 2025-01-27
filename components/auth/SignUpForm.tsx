@@ -17,7 +17,7 @@ import { getErrorMessage } from "@/lib/utils";
 // framer-motion
 import { motion } from "framer-motion";
 // assets
-import { Mail, KeyRound, EyeOff, Eye, Send, UserRound } from "lucide-react";
+import { Mail, KeyRound, EyeOff, Eye, Send, UserRound, ArrowLeft } from "lucide-react";
 
 const SignUpForm = () => {
     const [message, setMessage] = useState("");
@@ -44,6 +44,7 @@ const SignUpForm = () => {
             backLinkHref="/signin"
             backLinkLabel="Already have an account?"
             showSocials
+            leftIcon={ArrowLeft}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-5">

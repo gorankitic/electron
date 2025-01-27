@@ -49,6 +49,6 @@ export const signUp = async (data: SignUpSchema) => {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         console.error("❌Error in signUp server action: ", errorMessage);
-        throw new Error("Failed to create an account. Please try again later.");
+        throw new Error("Account creation failed. Please try again later.");
     }
 }

@@ -17,7 +17,7 @@ import { getErrorMessage } from "@/lib/utils";
 // framer-motion
 import { motion } from "framer-motion";
 // assets
-import { Mail, Send } from "lucide-react";
+import { Mail, Send, ArrowLeft } from "lucide-react";
 
 const ForgotPasswordForm = () => {
     const [message, setMessage] = useState("");
@@ -41,9 +41,10 @@ const ForgotPasswordForm = () => {
 
     return (
         <AuthCard
-            title="Forgot Password?"
+            title="Forgot password?"
             backLinkHref="/signin"
             backLinkLabel="Back to sign in"
+            leftIcon={ArrowLeft}
         >
             {!message ? (
                 <>
@@ -67,7 +68,7 @@ const ForgotPasswordForm = () => {
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
                             disabled={isSubmitting}
-                            className="primary-btn mt-5"
+                            className="primary-btn mt-6"
                         >
                             {isSubmitting ? <SpinnerMini /> : (
                                 <>

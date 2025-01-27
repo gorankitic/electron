@@ -38,6 +38,6 @@ export const credentialsSignIn = async (data: SignInSchema) => {
         const errorMessage = getErrorMessage(error);
         console.error("❌Error in signIn server action: ", errorMessage)
         if (error instanceof AuthError) throw new Error("Incorrect email or password.");
-        throw new Error("Failed to sign in user. Try again later.");
+        throw new Error("Sign-in failed. Please try again later.");
     }
 }

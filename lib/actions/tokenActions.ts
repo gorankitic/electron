@@ -1,5 +1,6 @@
 "use server";
 
+// database
 import { eq } from "drizzle-orm";
 import { db } from "@/db/database";
 import { passwordResetTokens, users, verificationTokens } from "@/db/schema";
@@ -31,47 +32,21 @@ export const generateEmailVerificationToken = async (email: string) => {
     return verificationToken;
 }
 
-export const verifyEmailToken = async (token: string) => {
-    try {
-        const existingToken = await db.query.verificationTokens.findFirst({
-            where: eq(verificationTokens.token, token)
-        });
-        if (!existingToken) {
-            return { success: false, message: "Something went wrong." };
-        }
-
-        const hasExpired = new Date(existingToken.expires) < new Date();
-        if (hasExpired) {
-            return { success: false, message: "Verification link has expired." };
-        }
-
-        const existingUser = await db.query.users.findFirst({
-            where: eq(users.email, existingToken.email)
-        });
-        if (!existingUser) {
-            return { success: false, message: "User owner of this token doesn't exist anymore." };
-        }
-
-        await db
-            .update(users)
-            .set({ emailVerified: new Date() })
-            .where(eq(users.email, existingToken.email))
-
-        await db
-            .delete(verificationTokens)
-            .where(eq(verificationTokens.email, existingToken.email))
-
-        return { success: true, message: "Your email has been successfully verified." }
-    } catch (error) {
-        console.error("❌Error verifying email token: ", error);
-        throw new Error("Failed to verify email. Please try again later.");
-    }
-}
-
 export const getPasswordResetToken = async (email: string) => {
     try {
         const passwordResetToken = await db.query.passwordResetTokens.findFirst({
             where: eq(passwordResetTokens.email, email)
+        });
+        return passwordResetToken;
+    } catch (error) {
+        return null;
+    }
+}
+
+export const getPasswordResetTokenByToken = async (token: string) => {
+    try {
+        const passwordResetToken = await db.query.passwordResetTokens.findFirst({
+            where: eq(passwordResetTokens.token, token)
         });
         return passwordResetToken;
     } catch (error) {
@@ -97,3 +72,4 @@ export const generatePasswordResetToken = async (email: string) => {
 
     return passwordResetToken;
 }
+

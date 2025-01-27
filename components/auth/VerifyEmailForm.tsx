@@ -8,7 +8,7 @@ import AuthCard from "@/components/auth/AuthCard";
 import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
-import { verifyEmailToken } from "@/lib/actions/tokenActions";
+import { verifyEmailToken } from "@/lib/actions/verifyEmailAction";
 // utils
 import { getErrorMessage } from "@/lib/utils";
 // framer-motion

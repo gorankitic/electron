@@ -2,16 +2,20 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import SocialButtons from "@/components/auth/SocialButtons";
+// types
+import { LucideIcon } from 'lucide-react';
 
 type AuthCardProps = {
     children: React.ReactNode,
     title: string,
     backLinkHref: string,
     backLinkLabel: string,
-    showSocials?: boolean
+    showSocials?: boolean,
+    leftIcon?: LucideIcon
+    rightIcon?: LucideIcon
 }
 
-const AuthCard = ({ children, title, backLinkHref, backLinkLabel, showSocials }: AuthCardProps) => {
+const AuthCard = ({ children, title, backLinkHref, backLinkLabel, showSocials, leftIcon: LeftIcon, rightIcon: RightIcon }: AuthCardProps) => {
 
     return (
         <div className="max-w-lg w-full mx-auto my-auto bg-gray-200 bg-opacity-50 rounded-lg shadow-md overflow-hidden">
@@ -28,8 +32,10 @@ const AuthCard = ({ children, title, backLinkHref, backLinkLabel, showSocials }:
                 )}
             </div>
             <div className="px-8 py-3 text-sm bg-gray-500 bg-opacity-50 flex justify-center">
-                <Link href={backLinkHref} className="hover:text-blue-600 hover:underline">
-                    {backLinkLabel}
+                <Link href={backLinkHref} className="flex items-center gap-1 hover:text-blue-600 hover:underline">
+                    {LeftIcon && <LeftIcon className="w-4 h-4 text-gray-700" />}
+                    <span>{backLinkLabel}</span>
+                    {RightIcon && <RightIcon className="w-4 h-4 text-gray-700" />}
                 </Link>
             </div>
         </div>

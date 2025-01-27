@@ -19,7 +19,7 @@ import { getErrorMessage } from "@/lib/utils";
 // framer-motion
 import { motion } from "framer-motion";
 // assets
-import { Mail, KeyRound, EyeOff, Eye, Send } from "lucide-react";
+import { Mail, KeyRound, EyeOff, Eye, Send, ArrowLeft } from "lucide-react";
 
 const SignInForm = () => {
     const router = useRouter();
@@ -47,8 +47,9 @@ const SignInForm = () => {
         <AuthCard
             title="Welcome back"
             backLinkHref="/signup"
-            backLinkLabel="Don&apos;t have an account? Sign up"
+            backLinkLabel="Don&apos;t have an account?"
             showSocials
+            leftIcon={ArrowLeft}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-5">
