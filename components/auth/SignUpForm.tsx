@@ -8,18 +8,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpSchema, signUpSchema } from "@/lib/types/authSchema";
 // components
 import AuthCard from "@/components/auth/AuthCard";
+import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
-import { signUp } from "@/lib/actions/authActions";
+import { signUp } from "@/lib/actions/signUpAction";
+// utils
+import { getErrorMessage } from "@/lib/utils";
 // framer-motion
 import { motion } from "framer-motion";
 // assets
 import { Mail, KeyRound, EyeOff, Eye, Send, UserRound } from "lucide-react";
-// utils
-import { getErrorMessage } from "@/lib/utils";
 
 const SignUpForm = () => {
-    const [success, setSuccess] = useState("");
+    const [message, setMessage] = useState("");
     const [passwordVisible, setPasswordVisible] = useState(false);
     const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<SignUpSchema>({ resolver: zodResolver(signUpSchema) });
 
@@ -27,11 +28,12 @@ const SignUpForm = () => {
         try {
             const response = await signUp(data);
             if (response.success) {
-                setSuccess(response.success);
+                setMessage(response.message);
+            } else {
+                setError("root", { type: "server", message: response.message });
             }
         } catch (error) {
             const errorMessage = getErrorMessage(error);
-            console.error(error);
             setError("root", { type: "server", message: errorMessage });
         }
     }
@@ -56,7 +58,7 @@ const SignUpForm = () => {
                             className="auth-input"
                         />
                         <UserRound className="input-icon" />
-                        {errors.name && <p className="text-red-500 mt-1">{errors.name.message}</p>}
+                        {errors.name && <p className="error mt-1">{errors.name.message}</p>}
                     </div>
                     <div className="relative">
                         <input
@@ -69,7 +71,7 @@ const SignUpForm = () => {
                             className="auth-input"
                         />
                         <Mail className="input-icon" />
-                        {errors.email && <p className="text-red-500 mt-1">{errors.email.message}</p>}
+                        {errors.email && <p className="error mt-1">{errors.email.message}</p>}
                     </div>
                     <div className="relative">
                         <input
@@ -91,11 +93,11 @@ const SignUpForm = () => {
                                 className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
                             />
                         )}
-                        {errors.password && <p className="text-red-500 mt-1">{errors.password.message}</p>}
+                        {errors.password && <p className="error mt-1">{errors.password.message}</p>}
                     </div>
                 </div>
-                {success && <p className="text-center text-blue-600 mt-3">{success}</p>}
-                {errors.root?.type === "server" && <p className="text-red-500 mt-1">{errors.root.message}</p>}
+                {message && <Message message={message} type="info" />}
+                {errors.root?.type === "server" && <Message message={errors.root.message} type="error" />}
                 <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}

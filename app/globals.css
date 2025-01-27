@@ -44,6 +44,10 @@ body {
 	.input-icon {
 		@apply w-5 h-5 absolute left-3 top-[10px] text-gray-500 pointer-events-none;
 	}
+
+	.error {
+		@apply text-red-500 text-sm;
+	}
 }
 
 @layer base {

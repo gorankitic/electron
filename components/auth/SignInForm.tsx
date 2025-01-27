@@ -7,14 +7,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // types
 import { SignInSchema, signInSchema } from "@/lib/types/authSchema";
-// utils
-import { getErrorMessage } from "@/lib/utils";
 // components
 import Link from "next/link";
 import AuthCard from "@/components/auth/AuthCard";
+import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
-import { credentialsSignIn } from "@/lib/actions/authActions";
+import { credentialsSignIn } from "@/lib/actions/signInAction";
+// utils
+import { getErrorMessage } from "@/lib/utils";
 // framer-motion
 import { motion } from "framer-motion";
 // assets
@@ -29,15 +30,15 @@ const SignInForm = () => {
     const onSubmit = async (data: SignInSchema) => {
         try {
             const response = await credentialsSignIn(data);
-            if (response.message) {
-                setMessage(response.message);
+            if (!response.success) {
+                return setError("root", { type: "server", message: response.message });
             }
-            if (response.success) {
-                router.push("/");
+            if (response.message === "SignIn") {
+                return router.push("/");
             }
+            setMessage(response.message);
         } catch (error) {
             const errorMessage = getErrorMessage(error);
-            console.error(error);
             setError("root", { type: "server", message: errorMessage });
         }
     }
@@ -62,7 +63,7 @@ const SignInForm = () => {
                             className="auth-input"
                         />
                         <Mail className="input-icon" />
-                        {errors.email && <p className="text-red-500 mt-1">{errors.email.message}</p>}
+                        {errors.email && <p className="error mt-1">{errors.email.message}</p>}
                     </div>
                     <div className="relative">
                         <input
@@ -85,11 +86,11 @@ const SignInForm = () => {
                                 className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
                             />
                         )}
-                        {errors.password && <p className="text-red-500 mt-1">{errors.password.message}</p>}
+                        {errors.password && <p className="error mt-1">{errors.password.message}</p>}
                     </div>
                 </div>
-                {message && <p className="text-center text-blue-600 mt-3">{message}</p>}
-                {errors.root?.type === "server" && <p className="text-red-500 mt-1">{errors.root.message}</p>}
+                {message && <Message message={message} type="info" />}
+                {errors.root?.type === "server" && <Message message={errors.root.message} type="error" />}
                 <div className="flex items-center">
                     <Link href="/forgot-password" className="text-sm mt-2 ml-auto text-gray-600 hover:text-blue-600 hover:underline">
                         Forgot password?

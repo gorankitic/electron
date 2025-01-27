@@ -1,8 +1,8 @@
 "use server";
 
 // utils
-import { getBaseUrl } from "@/lib/utils";
-import { VERIFICATION_EMAIL_TEMPLATE } from "@/lib/email/templates";
+import { getBaseUrl, getErrorMessage } from "@/lib/utils";
+import { VERIFICATION_EMAIL_TEMPLATE, RESET_PASSWORD_TEMPLATE } from "@/lib/email/templates";
 // resend
 import { Resend } from "resend";
 
@@ -20,8 +20,28 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     });
 
     if (error) {
-        console.error("Error in sendVerificationEmail:", error);
+        const errorMessage = getErrorMessage(error);
+        console.error("❌Error in sendVerificationEmail: ", errorMessage);
         throw new Error("Failed to send the verification email. Try again.");
+    }
+
+    return data;
+}
+
+export const sendPasswordResetEmail = async (email: string, token: string) => {
+    const resetLink = `${domain}/reset-password?token=${token}`;
+
+    const { data, error } = await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "Electron | Reset your password",
+        html: RESET_PASSWORD_TEMPLATE.replace("{resetLink}", resetLink)
+    });
+
+    if (error) {
+        const errorMessage = getErrorMessage(error);
+        console.error("❌Error in sendPasswordResetEmail: ", errorMessage);
+        throw new Error("Failed to send the password reset email. Try again.");
     }
 
     return data;
