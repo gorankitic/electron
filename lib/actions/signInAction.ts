@@ -16,7 +16,7 @@ import { getErrorMessage } from "@/lib/utils";
 export const credentialsSignIn = async (data: SignInSchema) => {
     try {
         // Server-side data validation with Zod in auth/authorized
-        // Check if user already exists in database
+        // Check if user exists in database
         const existingUser = await db.query.users.findFirst({
             where: (users, { eq }) => eq(users.email, data.email)
         });
