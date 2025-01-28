@@ -3,19 +3,50 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 // database/drizzle
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/db/database";
-import { signInSchema } from "@/lib/types/authSchema";
-import { users } from "@/db/schema";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { eq } from "drizzle-orm";
+import { users } from "@/db/schema";
+// types
+import { signInSchema } from "@/lib/types/authSchema";
 // lib
 import bcrypt from "bcrypt";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: DrizzleAdapter(db),
     secret: process.env.AUTH_SECRET,
-    session: {
-        strategy: "jwt"
+    session: { strategy: "jwt" },
+    callbacks: {
+        async jwt({ token }) {
+            if (!token.sub) return token;
+            const userId = token.sub;
+            try {
+                const existingUser = await db.query.users.findFirst({
+                    where: (users, { eq }) => eq(users.id, userId),
+                });
+                if (!existingUser) return token;
+                const existingAccount = await db.query.accounts.findFirst({
+                    where: (accounts, { eq }) => eq(accounts.userId, existingUser.id),
+                });
+
+                token.role = existingUser.role;
+                token.isOAuth = !!existingAccount;
+                token.isTwoFactorEnabled = existingUser.twoFactorEnabled
+
+            } catch (error) {
+                console.error("❌Error in JWT callback:", error);
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user && token) {
+                session.user.id = token.sub as string;
+                session.user.role = token.role as "user" | "admin";
+                session.user.isOAuth = token.isOAuth as boolean;
+                session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+            }
+            return session;
+        }
     },
     providers: [
         Google({
