@@ -1,10 +1,9 @@
 // components
+import Link from "next/link";
 import Logo from "@/components/Logo";
-import UserButton from "./UserButton";
+import UserButton from "@/components/UserButton";
 // auth
 import { auth } from "@/lib/auth";
-import { Button } from "./ui/button";
-import Link from "next/link";
 
 const Header = async () => {
     const session = await auth();
