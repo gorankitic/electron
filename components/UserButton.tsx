@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 // assets
 import { LogOut, Settings, Truck } from "lucide-react";
 
-const UserButton = ({ user, expires }: Session) => {
+const UserButton = ({ user }: Session) => {
     const router = useRouter();
     if (!user) return null;
 

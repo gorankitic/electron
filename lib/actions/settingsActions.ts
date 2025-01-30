@@ -9,7 +9,6 @@ import { settingsSchema, SettingsSchema } from "@/lib/types/settingsSchema";
 // lib
 import { auth } from "@/lib/auth";
 import { getErrorMessage } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 import bcrypt from "bcrypt";
 
 export const updateSettings = async (data: SettingsSchema) => {
