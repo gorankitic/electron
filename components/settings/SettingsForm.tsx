@@ -18,6 +18,7 @@ import { getErrorMessage } from "@/lib/utils";
 // assets
 import { Send, Settings } from "lucide-react";
 import Image from "next/image";
+import { UploadButton } from "@/app/api/uploadthing/upload";
 
 type SettingsFormProps = {
     session: Session
@@ -25,8 +26,9 @@ type SettingsFormProps = {
 
 const SettingsForm = ({ session }: SettingsFormProps) => {
     const [message, setMessage] = useState("");
+    const [isUploading, setIsUploading] = useState(false);
 
-    const { register, handleSubmit, getValues, formState: { errors, isSubmitting }, setError } = useForm<SettingsSchema>({
+    const { register, handleSubmit, getValues, setValue, formState: { errors, isSubmitting }, setError } = useForm<SettingsSchema>({
         resolver: zodResolver(settingsSchema),
         defaultValues: {
             name: session.user.name!,
@@ -35,7 +37,8 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
         }
     });
 
-    console.log(getValues("image"))
+    // console.log("🚀👩🏻‍🚀 Astronaut: ", session.user)
+
 
     const onSubmit = async (data: SettingsSchema) => {
         try {
@@ -110,30 +113,59 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
                         />
                         {errors.newPassword && <p className="error mt-1">{errors.newPassword.message}</p>}
                     </div>
-                    <div>
+                    <>
                         <span className="text-sm">Avatar:</span>
-                        {!getValues("image") && (
-                            <div className="font-bold border rounded-full w-10 h-10 flex items-center justify-center">
-                                {session.user.name?.charAt(0).toUpperCase()}
+                        <div className="flex items-center">
+                            <div className="relative w-10 h-10 flex items-center justify-center rounded-full overflow-hidden bg-gray-200">
+                                {!getValues("image") && (
+                                    <div className="font-bold">
+                                        {session.user.name?.charAt(0).toUpperCase()}
+                                    </div>
+                                )}
+                                {getValues("image") && (
+                                    <Image
+                                        src={getValues("image")!}
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 40px"
+                                        className="object-cover"
+                                        alt="User Image"
+                                    />
+                                )}
                             </div>
-                        )}
-                        {getValues("image") && (
-                            <Image
-                                src={getValues("image")!}
-                                width={40}
-                                height={40}
-                                className="rounded-full"
-                                alt="User Image"
+                            <UploadButton
+                                className="scale-75 ut-button:bg-blue-500 hover:ut-button:bg-blue-400 ut-button:ring-blue-500 ut-button:transition-all ut-button:duration-300 ut-label:hidden ut-allowed-content:hidden"
+                                endpoint="avatarUploader"
+                                content={{
+                                    button({ ready }) {
+                                        if (ready) return <div>Change avatar</div>
+                                        return <div>Loading...</div>
+                                    }
+                                }}
+                                onUploadBegin={() => {
+                                    setIsUploading(true);
+                                }}
+                                onUploadError={(error) => {
+                                    const errorMessage = getErrorMessage(error);
+                                    setError("image", { type: "validate", message: errorMessage });
+                                    setIsUploading(false);
+                                    return;
+                                }}
+                                onClientUploadComplete={(res) => {
+                                    setValue("image", res[0].url);
+                                    setIsUploading(false);
+                                    return;
+                                }}
                             />
-                        )}
-                    </div>
+                            {errors.image && <p className="error mt-1">{errors.image.message}</p>}
+                        </div>
+                    </>
                     {message && <Message message={message} type="info" />}
                     {errors.root?.type === "server" && <Message message={errors.root.message} type="error" />}
                 </div>
                 <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isUploading}
                     className="primary-btn"
                 >
                     {isSubmitting ? <SpinnerMini /> : (

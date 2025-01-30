@@ -35,28 +35,31 @@ export const updateSettings = async (data: SettingsSchema) => {
         }
 
         if (session.user.isOAuth) {
-            data.email = undefined,
-                data.password = undefined,
-                data.newPassword = undefined
+            data.image = undefined;
+            data.password = undefined;
+            data.newPassword = undefined;
         }
 
         if (data.password && data.newPassword && existingUser.password) {
             const passwordMatch = await bcrypt.compare(data.password, existingUser.password);
             if (!passwordMatch) {
-                return { success: false, message: "Incorrect password." }
+                throw new Error("Incorrect password.");
             }
             const hashedPassword = await bcrypt.hash(data.newPassword, 10);
-            data.password = hashedPassword;
-            data.newPassword = undefined
+            await db
+                .update(users)
+                .set({ password: hashedPassword })
+                .where(eq(users.id, existingUser.id));
         }
 
-        await db
-            .update(users)
-            .set({ password: data.password, image: data.image })
-            .where(eq(users.id, existingUser.id));
+        if (data.image && data.image !== existingUser.image) {
+            await db
+                .update(users)
+                .set({ image: data.image })
+                .where(eq(users.id, existingUser.id));
+        }
 
-        revalidatePath("/settings");
-        return { success: true, message: "Settings updated successfully." }
+        return { success: true, message: "Settings updated successfully. Sign in again to see changes." }
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         console.error("❌Error in updateSettings server action: ", errorMessage);
