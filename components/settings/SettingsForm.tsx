@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // components
 import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
-import { Switch } from "@/components/ui/switch";
 // types
 import { settingsSchema, SettingsSchema } from "@/lib/types/settingsSchema";
 // server actions
@@ -18,6 +17,7 @@ import { motion } from "framer-motion";
 import { getErrorMessage } from "@/lib/utils";
 // assets
 import { Send, Settings } from "lucide-react";
+import Image from "next/image";
 
 type SettingsFormProps = {
     session: Session
@@ -26,14 +26,16 @@ type SettingsFormProps = {
 const SettingsForm = ({ session }: SettingsFormProps) => {
     const [message, setMessage] = useState("");
 
-    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm<SettingsSchema>({
+    const { register, handleSubmit, getValues, formState: { errors, isSubmitting }, setError } = useForm<SettingsSchema>({
         resolver: zodResolver(settingsSchema),
         defaultValues: {
             name: session.user.name!,
             email: session.user.email!,
-            isTwoFactorEnabled: session.user.isTwoFactorEnabled!
+            image: session.user.image!
         }
     });
+
+    console.log(getValues("image"))
 
     const onSubmit = async (data: SettingsSchema) => {
         try {
@@ -108,17 +110,23 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
                         />
                         {errors.newPassword && <p className="error mt-1">{errors.newPassword.message}</p>}
                     </div>
-                    <div className="flex items-center gap-2 mt-1">
-                        <span>Enable Two Factor Authentication: </span>
-                        <Switch
-                            {...register("isTwoFactorEnabled")}
-                            type="button"
-                            name="isTwoFactorEnabled"
-                            disabled={isSubmitting || session.user.isOAuth}
-                        />
+                    <div>
+                        <span className="text-sm">Avatar:</span>
+                        {!getValues("image") && (
+                            <div className="font-bold border rounded-full w-10 h-10 flex items-center justify-center">
+                                {session.user.name?.charAt(0).toUpperCase()}
+                            </div>
+                        )}
+                        {getValues("image") && (
+                            <Image
+                                src={getValues("image")!}
+                                width={40}
+                                height={40}
+                                className="rounded-full"
+                                alt="User Image"
+                            />
+                        )}
                     </div>
-                    {errors.isTwoFactorEnabled && <p className="error">{errors.isTwoFactorEnabled.message}</p>}
-
                     {message && <Message message={message} type="info" />}
                     {errors.root?.type === "server" && <Message message={errors.root.message} type="error" />}
                 </div>

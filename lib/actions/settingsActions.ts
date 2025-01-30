@@ -36,7 +36,6 @@ export const updateSettings = async (data: SettingsSchema) => {
 
         if (session.user.isOAuth) {
             data.email = undefined,
-                data.isTwoFactorEnabled = undefined,
                 data.password = undefined,
                 data.newPassword = undefined
         }
@@ -53,7 +52,7 @@ export const updateSettings = async (data: SettingsSchema) => {
 
         await db
             .update(users)
-            .set({ password: data.password, twoFactorEnabled: data.isTwoFactorEnabled, image: data.image })
+            .set({ password: data.password, image: data.image })
             .where(eq(users.id, existingUser.id));
 
         revalidatePath("/settings");

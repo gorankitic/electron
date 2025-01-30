@@ -31,7 +31,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
                 token.role = existingUser.role;
                 token.isOAuth = !!existingAccount;
-                token.isTwoFactorEnabled = existingUser.twoFactorEnabled
 
             } catch (error) {
                 console.error("❌Error in JWT callback:", error);
@@ -43,7 +42,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 session.user.id = token.sub as string;
                 session.user.role = token.role as "user" | "admin";
                 session.user.isOAuth = token.isOAuth as boolean;
-                session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
             }
             return session;
         }

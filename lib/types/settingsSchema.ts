@@ -4,7 +4,6 @@ export const settingsSchema = z.object({
     name: z.optional(z.string()),
     email: z.optional(z.string()),
     image: z.optional(z.string()),
-    isTwoFactorEnabled: z.optional(z.boolean()),
     password: z.optional(z.string()),
     newPassword: z.optional(z.string())
 });
