@@ -5,8 +5,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // components
+import Image from "next/image";
 import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
+import { UploadButton } from "@/app/api/uploadthing/upload";
 // types
 import { settingsSchema, SettingsSchema } from "@/lib/types/settingsSchema";
 // server actions
@@ -17,8 +19,6 @@ import { motion } from "framer-motion";
 import { getErrorMessage } from "@/lib/utils";
 // assets
 import { Send, Settings } from "lucide-react";
-import Image from "next/image";
-import { UploadButton } from "@/app/api/uploadthing/upload";
 
 type SettingsFormProps = {
     session: Session
