@@ -37,9 +37,6 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
         }
     });
 
-    // console.log("🚀👩🏻‍🚀 Astronaut: ", session.user)
-
-
     const onSubmit = async (data: SettingsSchema) => {
         try {
             const response = await updateSettings(data);
@@ -133,6 +130,7 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
                                 )}
                             </div>
                             <UploadButton
+                                disabled={session.user.isOAuth}
                                 className="scale-75 ut-button:bg-blue-500 hover:ut-button:bg-blue-400 ut-button:ring-blue-500 ut-button:transition-all ut-button:duration-300 ut-label:hidden ut-allowed-content:hidden"
                                 endpoint="avatarUploader"
                                 content={{
