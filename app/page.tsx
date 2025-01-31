@@ -4,7 +4,7 @@
 export default async function Home() {
 
   return (
-    <div className="text-blue-600">
+    <div>
 
     </div>
   );

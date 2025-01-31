@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased flex flex-col h-screen text-gray-700 max-w-7xl mx-auto px-5 md:px-10 w-full`}>
         <Header />
-        <main className="flex-1">
+        <main className="flex flex-1 flex-col">
           {children}
         </main>
         <Footer />

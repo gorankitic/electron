@@ -9,16 +9,16 @@ import Image from "next/image";
 import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 import { UploadButton } from "@/app/api/uploadthing/upload";
-// types
-import { settingsSchema, SettingsSchema } from "@/lib/types/settingsSchema";
 // server actions
 import { updateSettings } from "@/lib/actions/settingsActions";
+// types
+import { settingsSchema, SettingsSchema } from "@/lib/types/settingsSchema";
 // lib
 import { Session } from "next-auth";
 import { motion } from "framer-motion";
 import { getErrorMessage } from "@/lib/utils";
 // assets
-import { Send, Settings } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Mail, Send, Settings, UserRound } from "lucide-react";
 
 type SettingsFormProps = {
     session: Session
@@ -26,6 +26,7 @@ type SettingsFormProps = {
 
 const SettingsForm = ({ session }: SettingsFormProps) => {
     const [message, setMessage] = useState("");
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
 
     const { register, handleSubmit, getValues, setValue, formState: { errors, isSubmitting }, setError } = useForm<SettingsSchema>({
@@ -53,65 +54,86 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
 
     return (
         <div className="max-w-lg w-full mx-auto">
-            <div className="flex items-center justify-center gap-1">
-                <Settings className="text-blue-500" />
-                <h1 className="text-xl font-semibold text-center text-blue-500">
+            <div className="flex items-center gap-1">
+                <Settings className="text-blue-500 size-5" />
+                <h1 className="text-xl font-semibold text-blue-500">
                     Settings
                 </h1>
             </div>
-            <p className="text-xs text-center text-gray-500">Update your account settings</p>
+            <p className="text-xs text-gray-500">Update your account settings</p>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-2 mb-8 mt-5">
-                    <div>
-                        <span className="text-sm">Name: </span>
+                <div className="flex flex-col gap-2 mb-8 mt-5 space-y-3">
+                    <div className="relative">
                         <input
                             {...register("name")}
                             type="text"
                             name="name"
                             placeholder="Name"
+                            autoComplete="off"
                             disabled
-                            className="settings-input"
+                            className="input"
                         />
+                        <UserRound className="left-input-icon" />
+                        {errors.name && <p className="error mt-1">{errors.name.message}</p>}
                     </div>
-                    <div>
-                        <span className="text-sm">Email: </span>
+                    <div className="relative">
                         <input
                             {...register("email")}
                             type="email"
                             name="email"
                             placeholder="Email"
-                            disabled
-                            className="settings-input"
+                            autoComplete="off"
+                            disabled={isSubmitting}
+                            className="input"
                         />
+                        <Mail className="left-input-icon" />
+                        {errors.email && <p className="error mt-1">{errors.email.message}</p>}
                     </div>
-                    <div>
-                        <span className="text-sm">Current Password: </span>
+                    <div className="relative">
                         <input
                             {...register("password")}
-                            type="password"
+                            type={passwordVisible ? "text" : "password"}
                             name="password"
-                            placeholder="**********"
-                            autoComplete="off"
+                            placeholder="Current password"
                             disabled={isSubmitting || session.user.isOAuth}
-                            className="settings-input"
+                            className="input"
                         />
+                        <KeyRound className="left-input-icon" />
+                        {!passwordVisible ? (
+                            <Eye
+                                onClick={() => setPasswordVisible(prev => !prev)}
+                                className="right-input-icon"
+                            />) : (
+                            <EyeOff
+                                onClick={() => setPasswordVisible(prev => !prev)}
+                                className="right-input-icon"
+                            />
+                        )}
                         {errors.password && <p className="error mt-1">{errors.password.message}</p>}
                     </div>
-                    <div>
-                        <span className="text-sm">New password: </span>
+                    <div className="relative">
                         <input
                             {...register("newPassword")}
-                            type="password"
+                            type={passwordVisible ? "text" : "password"}
                             name="newPassword"
-                            placeholder="**********"
-                            autoComplete="off"
+                            placeholder="New password"
                             disabled={isSubmitting || session.user.isOAuth}
-                            className="settings-input"
+                            className="input"
                         />
+                        <KeyRound className="left-input-icon" />
+                        {!passwordVisible ? (
+                            <Eye
+                                onClick={() => setPasswordVisible(prev => !prev)}
+                                className="right-input-icon"
+                            />) : (
+                            <EyeOff
+                                onClick={() => setPasswordVisible(prev => !prev)}
+                                className="right-input-icon"
+                            />
+                        )}
                         {errors.newPassword && <p className="error mt-1">{errors.newPassword.message}</p>}
                     </div>
                     <>
-                        <span className="text-sm">Avatar:</span>
                         <div className="flex items-center">
                             <div className="relative w-10 h-10 flex items-center justify-center rounded-full overflow-hidden bg-gray-200">
                                 {!getValues("image") && (
@@ -154,8 +176,8 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
                                     return;
                                 }}
                             />
-                            {errors.image && <p className="error mt-1">{errors.image.message}</p>}
                         </div>
+                        {errors.image && <p className="error mt-1">{errors.image.message}</p>}
                     </>
                     {message && <Message message={message} type="info" />}
                     {errors.root?.type === "server" && <Message message={errors.root.message} type="error" />}

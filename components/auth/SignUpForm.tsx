@@ -4,17 +4,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// types
-import { SignUpSchema, signUpSchema } from "@/lib/types/authSchema";
 // components
 import AuthCard from "@/components/auth/AuthCard";
 import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
 import { signUp } from "@/lib/actions/signUpAction";
-// utils
+// types
+import { SignUpSchema, signUpSchema } from "@/lib/types/authSchema";
+// lib
 import { getErrorMessage } from "@/lib/utils";
-// framer-motion
 import { motion } from "framer-motion";
 // assets
 import { Mail, KeyRound, EyeOff, Eye, Send, UserRound, ArrowLeft } from "lucide-react";
@@ -56,9 +55,9 @@ const SignUpForm = () => {
                             placeholder="Name"
                             autoComplete="off"
                             disabled={isSubmitting}
-                            className="auth-input"
+                            className="input"
                         />
-                        <UserRound className="input-icon" />
+                        <UserRound className="left-input-icon" />
                         {errors.name && <p className="error mt-1">{errors.name.message}</p>}
                     </div>
                     <div className="relative">
@@ -69,9 +68,9 @@ const SignUpForm = () => {
                             placeholder="Email"
                             autoComplete="off"
                             disabled={isSubmitting}
-                            className="auth-input"
+                            className="input"
                         />
-                        <Mail className="input-icon" />
+                        <Mail className="left-input-icon" />
                         {errors.email && <p className="error mt-1">{errors.email.message}</p>}
                     </div>
                     <div className="relative">
@@ -81,17 +80,17 @@ const SignUpForm = () => {
                             name="password"
                             placeholder="Password"
                             disabled={isSubmitting}
-                            className="auth-input"
+                            className="input"
                         />
-                        <KeyRound className="input-icon" />
+                        <KeyRound className="left-input-icon" />
                         {!passwordVisible ? (
                             <Eye
                                 onClick={() => setPasswordVisible(prev => !prev)}
-                                className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
+                                className="right-input-icon"
                             />) : (
                             <EyeOff
                                 onClick={() => setPasswordVisible(prev => !prev)}
-                                className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
+                                className="right-input-icon"
                             />
                         )}
                         {errors.password && <p className="error mt-1">{errors.password.message}</p>}

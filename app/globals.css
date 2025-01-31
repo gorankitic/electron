@@ -37,16 +37,20 @@ body {
 		@apply flex gap-2 items-center justify-center mx-auto w-full mt-2 py-2 px-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-md shadow-md focus:outline-none transition duration-100;
 	}
 
-	.auth-input {
-		@apply w-full pl-10 pr-4 py-2 rounded-md border placeholder-gray-400 border-gray-300 focus:outline-blue-600;
+	.input {
+		@apply w-full pl-10 pr-4 py-1 rounded-md border placeholder-gray-400 border-gray-300 focus:outline-blue-600;
 	}
 
 	.settings-input {
 		@apply w-full py-1 px-2 rounded-md border placeholder-gray-400 border-gray-300 focus:outline-blue-600;
 	}
 
-	.input-icon {
-		@apply w-5 h-5 absolute left-3 top-[10px] text-gray-500 pointer-events-none;
+	.left-input-icon {
+		@apply w-4 h-4 absolute left-3 top-[9px] text-gray-500 pointer-events-none;
+	}
+
+	.right-input-icon {
+		@apply w-4 h-4 absolute right-3 top-[9px] text-gray-500 cursor-pointer;
 	}
 
 	.error {

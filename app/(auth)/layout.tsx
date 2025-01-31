@@ -1,6 +1,6 @@
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function AuthLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <div className="flex h-screen flex-col justify-between">
+        <div className="flex flex-1 flex-col items-center justify-center">
             {children}
         </div>
     );

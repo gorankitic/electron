@@ -4,7 +4,6 @@
 import Image from "next/image";
 // auth
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 const SocialButtons = () => {
 

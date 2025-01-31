@@ -9,12 +9,11 @@ import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
 import { verifyEmailToken } from "@/lib/actions/verifyEmailAction";
-// utils
+// lib
 import { getErrorMessage } from "@/lib/utils";
-// framer-motion
 import { motion } from "framer-motion";
 // assets
-import { CircleCheckBig, Mail } from "lucide-react";
+import { CircleCheckBig } from "lucide-react";
 
 const VerifyEmailForm = () => {
     const token = useSearchParams().get("token");

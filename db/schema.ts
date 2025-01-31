@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, primaryKey, boolean, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, serial, integer, primaryKey, pgEnum, real } from "drizzle-orm/pg-core";
 import { AdapterAccountType } from "next-auth/adapters";
 
 export const RoleEnum = pgEnum("roles", ["user", "admin"]);
@@ -74,3 +74,11 @@ export const passwordResetTokens = pgTable("passwordResetToken",
         },
     ]
 );
+
+export const products = pgTable("product", {
+    id: serial("id").primaryKey(),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    price: real("price").notNull(),
+    created: timestamp("created").defaultNow()
+});

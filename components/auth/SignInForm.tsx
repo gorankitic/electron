@@ -5,8 +5,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// types
-import { SignInSchema, signInSchema } from "@/lib/types/authSchema";
 // components
 import Link from "next/link";
 import AuthCard from "@/components/auth/AuthCard";
@@ -14,9 +12,10 @@ import Message from "@/components/auth/Message";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
 import { credentialsSignIn } from "@/lib/actions/signInAction";
-// utils
+// types
+import { SignInSchema, signInSchema } from "@/lib/types/authSchema";
+// lib
 import { getErrorMessage } from "@/lib/utils";
-// framer-motion
 import { motion } from "framer-motion";
 // assets
 import { Mail, KeyRound, EyeOff, Eye, Send, ArrowLeft } from "lucide-react";
@@ -61,9 +60,9 @@ const SignInForm = () => {
                             placeholder="Email"
                             autoComplete="off"
                             disabled={isSubmitting}
-                            className="auth-input"
+                            className="input"
                         />
-                        <Mail className="input-icon" />
+                        <Mail className="left-input-icon" />
                         {errors.email && <p className="error mt-1">{errors.email.message}</p>}
                     </div>
                     <div className="relative">
@@ -74,17 +73,17 @@ const SignInForm = () => {
                             placeholder="Password"
                             autoComplete="off"
                             disabled={isSubmitting}
-                            className="auth-input"
+                            className="input"
                         />
-                        <KeyRound className="input-icon" />
+                        <KeyRound className="left-input-icon" />
                         {!passwordVisible ? (
                             <Eye
                                 onClick={() => setPasswordVisible(prev => !prev)}
-                                className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
+                                className="right-input-icon"
                             />) : (
                             <EyeOff
                                 onClick={() => setPasswordVisible(prev => !prev)}
-                                className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
+                                className="right-input-icon"
                             />
                         )}
                         {errors.password && <p className="error mt-1">{errors.password.message}</p>}

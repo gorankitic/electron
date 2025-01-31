@@ -9,8 +9,8 @@ const Logo = ({ size }: { size?: number }) => {
             href="/"
             className="flex items-center gap-1"
         >
-            <Atom size={size} className="text-blue-500" />
-            <span className="text-lg uppercase md:tracking-wider font-semibold text-blue-500">Electron</span>
+            <Atom size={size} />
+            <span className="text-lg uppercase font-medium">Electron</span>
         </Link>
     )
 }

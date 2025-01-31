@@ -6,17 +6,16 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-// types
-import { resetPasswordSchema, ResetPasswordSchema } from "@/lib/types/authSchema";
 // components
 import Message from "@/components/auth/Message";
 import AuthCard from "@/components/auth/AuthCard";
 import SpinnerMini from "@/components/SpinnerMini";
 // server actions
 import { resetPassword } from "@/lib/actions/resetPasswordActions";
-// utils
+// types
+import { resetPasswordSchema, ResetPasswordSchema } from "@/lib/types/authSchema";
+// lib
 import { getErrorMessage } from "@/lib/utils";
-// framer-motion
 import { motion } from "framer-motion";
 // assets
 import { Send, KeyRound, EyeOff, Eye, ArrowLeft } from "lucide-react";
@@ -31,7 +30,7 @@ const ResetPasswordForm = () => {
         try {
             const response = await resetPassword(data, token);
             if (response.success) {
-                router.push("/signin")
+                router.push("/signin");
             }
             if (!response.success) {
                 setError("root", { type: "server", message: response.message });
@@ -58,17 +57,17 @@ const ResetPasswordForm = () => {
                         placeholder="New password"
                         autoComplete="off"
                         disabled={isSubmitting}
-                        className="auth-input"
+                        className="input"
                     />
-                    <KeyRound className="input-icon" />
+                    <KeyRound className="left-input-icon" />
                     {!passwordVisible ? (
                         <Eye
                             onClick={() => setPasswordVisible(prev => !prev)}
-                            className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
+                            className="right-input-icon"
                         />) : (
                         <EyeOff
                             onClick={() => setPasswordVisible(prev => !prev)}
-                            className="w-5 h-5 absolute right-3 top-[10px] text-gray-500 cursor-pointer"
+                            className="right-input-icon"
                         />
                     )}
                     {errors.password && <p className="error mt-1">{errors.password.message}</p>}

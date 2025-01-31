@@ -14,7 +14,7 @@ const Navigation = ({ navLinks }: { navLinks: NavLink[] }) => {
     const pathName = usePathname();
 
     return (
-        <nav className="flex justify-center mt-5 mb-10">
+        <nav className="flex justify-center mt-5 mb-14">
             <ul className="flex items-center gap-5 md:gap-8 text-gray-600">
                 <AnimatePresence>
                     {navLinks.map(link => (
