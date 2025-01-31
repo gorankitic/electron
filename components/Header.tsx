@@ -9,8 +9,8 @@ const Header = async () => {
     const session = await auth();
 
     return (
-        <header className="py-2 border-b md:py-3 flex justify-between">
-            <Logo />
+        <header className="py-2 border-b flex justify-between items-center">
+            <Logo size={22} />
             {!session ? (
                 <Link href="/signin">Sign in</Link>
             ) : (

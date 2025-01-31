@@ -52,14 +52,14 @@ const SettingsForm = ({ session }: SettingsFormProps) => {
     }
 
     return (
-        <div className="max-w-lg w-full mx-auto mt-20 py-8 px-5 bg-gray-100 bg-opacity-50 rounded-lg shadow-md overflow-hidden">
+        <div className="max-w-lg w-full mx-auto">
             <div className="flex items-center justify-center gap-1">
-                <Settings className="text-blue-400" />
-                <h1 className="text-2xl font-bold text-center bg-gradient-to-r from-blue-400 to-blue-700 text-transparent bg-clip-text">
+                <Settings className="text-blue-500" />
+                <h1 className="text-xl font-semibold text-center text-blue-500">
                     Settings
                 </h1>
             </div>
-            <p className="text-sm text-center text-gray-500">Update your account settings</p>
+            <p className="text-xs text-center text-gray-500">Update your account settings</p>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-2 mb-8 mt-5">
                     <div>

@@ -19,7 +19,7 @@ const UserButton = ({ user }: Session) => {
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger>
-                <Avatar className="relative w-8 h-8" aria-label={`Avatar of ${user.name}`}>
+                <Avatar className="relative size-7 md:size-8" aria-label={`Avatar of ${user.name}`}>
                     {user.image && (
                         <Image
                             src={user.image}
@@ -52,11 +52,11 @@ const UserButton = ({ user }: Session) => {
                     </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="group cursor-pointer transition-all duration-300">
+                <DropdownMenuItem className="group cursor-pointer transition-all duration-300" onClick={() => router.push("/workspace/orders")}>
                     <Truck className="text-gray-700 group-hover:translate-x-1 transition-all duration-500 ease-in-out" />
                     <span>My Orders</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="group cursor-pointer transition-all duration-300" onClick={() => router.push("/settings")}>
+                <DropdownMenuItem className="group cursor-pointer transition-all duration-300" onClick={() => router.push("/workspace/settings")}>
                     <Settings className="text-gray-700 group-hover:rotate-180 transition-all duration-500 ease-in-out" />
                     <span>Settings</span>
                 </DropdownMenuItem>

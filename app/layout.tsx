@@ -1,4 +1,9 @@
+// next
 import type { Metadata } from "next";
+// components
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+// styles
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -16,9 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased text-gray-700 max-w-7xl mx-auto px-5 md:px-10 w-full`}>
-        {children}
+      <body className={`${inter.className} antialiased flex flex-col h-screen text-gray-700 max-w-7xl mx-auto px-5 md:px-10 w-full`}>
+        <Header />
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
       </body>
-    </html>
+    </html >
   );
 }

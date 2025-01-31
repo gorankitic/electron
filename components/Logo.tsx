@@ -7,10 +7,10 @@ const Logo = ({ size }: { size?: number }) => {
     return (
         <Link
             href="/"
-            className="flex items-center gap-2"
+            className="flex items-center gap-1"
         >
-            <Atom size={size} />
-            <span className="font-semibold">Electron</span>
+            <Atom size={size} className="text-blue-500" />
+            <span className="text-lg uppercase md:tracking-wider font-semibold text-blue-500">Electron</span>
         </Link>
     )
 }

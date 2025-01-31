@@ -3,7 +3,7 @@ const Footer = () => {
 
     return (
         <footer className="border-t text-center text-xs text-gray-500 py-2 md:py-3">
-            &copy; Goran Kitic | Electron {currentYear}.
+            &copy; Goran Kitic {currentYear}
         </footer>
     )
 }
