@@ -2,7 +2,7 @@
 
 // database
 import { db } from "@/db/database";
-// utils
+// lib
 import { getErrorMessage } from "@/lib/utils";
 
 export const getUserByEmail = async (email: string) => {
@@ -15,7 +15,6 @@ export const getUserByEmail = async (email: string) => {
                 email: true,
                 image: true,
                 emailVerified: true,
-                twoFactorEnabled: true,
                 role: true,
             },
         });

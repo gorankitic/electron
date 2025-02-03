@@ -1,6 +1,5 @@
 "use server";
 
-import bcrypt from "bcrypt";
 // database
 import { db } from "@/db/database";
 import { eq } from "drizzle-orm";
@@ -10,8 +9,9 @@ import { forgotPasswordSchema, ForgotPasswordSchema, resetPasswordSchema, ResetP
 // server actions
 import { generatePasswordResetToken, getPasswordResetTokenByToken } from "@/lib/actions/tokenActions";
 import { sendPasswordResetEmail } from "@/lib/actions/emailActions";
-// utils
+// lib
 import { getErrorMessage } from "@/lib/utils";
+import bcrypt from "bcryptjs";
 
 export const forgotPassword = async (data: ForgotPasswordSchema) => {
     try {

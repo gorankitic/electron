@@ -3,7 +3,7 @@
 // database
 import { eq } from "drizzle-orm";
 import { db } from "@/db/database";
-import { passwordResetTokens, users, verificationTokens } from "@/db/schema";
+import { passwordResetTokens, verificationTokens } from "@/db/schema";
 
 export const getVerficationToken = async (email: string) => {
     try {

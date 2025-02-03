@@ -1,16 +1,16 @@
 "use server";
 
-import bcrypt from "bcrypt";
 // database
 import { db } from "@/db/database";
 import { users } from "@/db/schema";
-// types
-import { signUpSchema, SignUpSchema } from "@/lib/types/authSchema";
 // server actions
 import { generateEmailVerificationToken } from "@/lib/actions/tokenActions";
 import { sendVerificationEmail } from "@/lib/actions/emailActions";
-// utils
+// types
+import { signUpSchema, SignUpSchema } from "@/lib/types/authSchema";
+// lib
 import { getErrorMessage } from "@/lib/utils";
+import bcrypt from "bcryptjs";
 
 export const signUp = async (data: SignUpSchema) => {
     try {

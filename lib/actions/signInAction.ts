@@ -1,17 +1,16 @@
 "use server";
 
-// next-auth
-import { signIn } from "@/lib/auth";
-import { AuthError } from "next-auth";
 // database
 import { db } from "@/db/database";
-// types
-import { SignInSchema } from "@/lib/types/authSchema";
 // server actions
 import { generateEmailVerificationToken } from "@/lib/actions/tokenActions";
 import { sendVerificationEmail } from "@/lib/actions/emailActions";
-// utils
+// types
+import { SignInSchema } from "@/lib/types/authSchema";
+// lib
+import { signIn } from "@/lib/auth";
 import { getErrorMessage } from "@/lib/utils";
+import { AuthError } from "next-auth";
 
 export const credentialsSignIn = async (data: SignInSchema) => {
     try {

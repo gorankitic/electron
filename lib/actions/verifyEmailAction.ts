@@ -4,7 +4,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db/database";
 import { users, verificationTokens } from "@/db/schema";
-// utils
+// lib
 import { getErrorMessage } from "@/lib/utils";
 
 export const verifyEmailToken = async (token: string) => {

@@ -10,7 +10,7 @@ import { users } from "@/db/schema";
 // types
 import { signInSchema } from "@/lib/types/authSchema";
 // lib
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: DrizzleAdapter(db),

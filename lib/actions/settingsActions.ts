@@ -9,7 +9,7 @@ import { settingsSchema, SettingsSchema } from "@/lib/types/settingsSchema";
 // lib
 import { auth } from "@/lib/auth";
 import { getErrorMessage } from "@/lib/utils";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const updateSettings = async (data: SettingsSchema) => {
     try {
